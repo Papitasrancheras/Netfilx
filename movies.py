@@ -23,7 +23,7 @@ data = load_data(500)
 data_load_state.text("Done")
 agree = st.sidebar.checkbox("Muestra data set")
 if agree:
-  st.dataframe(data)
+    st.dataframe(data)
 
 #Se trabaja en el slidebar 
 sidebar = st.sidebar
@@ -55,13 +55,31 @@ if (btnmov):
     st.dataframe(filterbyname)
     
 #Buscador de directores
+
+@st.cache
+def load_data():
+    data1 = pd.read_csv(data_emp)
+    return data1
+
 @st.cache
 def search_dir(director) : 
     doc1 = codecs.open('movies.csv','rU','latin1')
-    data1 = pd.read_csv(doc)
+    data1 = pd.read_csv(doc1)
     lowercase = lambda x: str(x).lower()
-    filtered_data_dir = data1[data1['director'].str.upper().str.contains(str.upper(dir))]
+    #filtered_data_dir = data1[data1['director'].str.upper().str.contains(str.upper(dir))]
+    filtered_data_dir = data1[data1['director']== director]
+    return filtered_data_dir
 
+    
+selected_dir = st.sidebar.selectbox(" Selecciona el director", data["director"].unique())
+btnFilterbydir = st.sidebar.button("Filter director")
 
-selected_dir = st.sidebar.selectbox("Select director", DATA_URL['director'].unique())
-st.write(f"Selected Option: {selected_sex!r}")
+if (btnFilterbydir):
+    Filterbydir = search_dir(selected_dir)
+    count_row = Filterbydir.shape[0] 
+    st.write(f"Total items: {count_row}")
+
+    st.dataframe(Filterbydir)
+
+#selected_dir = st.sidebar.selectbox("Select director", DATA_URL['director'].unique())
+#st.write(f"Selected Option: {selected_sex!r}")
