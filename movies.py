@@ -21,16 +21,16 @@ def load_data(nrows):
 data_load_state = st.text("Loading data")
 data = load_data(500)
 data_load_state.text("Done")
+agree = st.sidebar.checkbox("Muestra data set")
+if agree:
+  st.dataframe(data)
 
-st.dataframe(data)
 #Se trabaja en el slidebar 
 sidebar = st.sidebar
 sidebar.title("Busca la película.")
 sidebar.write("Aquí van los elementos de entrada.")
 #data_load_state 
-agree = st.sidebar.checkbox("Muestra data set")
-if agree:
-  st.dataframe(DATA_URL)
+
 
 #Buscador de películas 
 @st.cache
